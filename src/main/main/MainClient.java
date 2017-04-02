@@ -39,12 +39,12 @@ public class MainClient implements Initializable
     @FXML private TextField searchDeparture;
     @FXML private Button searchButton;
     @FXML private TableView<Flight> searchTable;
-
     @FXML private TableColumn<Flight, String> destination;
     @FXML private TableColumn<Flight, Date> datehour;
     @FXML private TableColumn<Flight, String> airport;
     @FXML private TableColumn<Flight, Integer> freeseats;
 
+    private ObservableList<Flight> zboruri;
     private final static int rowsPerPage = 7;
     private List<Flight> lista = new ArrayList<>();
     private BufferedReader in;
@@ -85,12 +85,14 @@ public class MainClient implements Initializable
 
             }
 
+            this.zboruri = FXCollections.observableArrayList(lista);
+
             destination.setCellValueFactory(new PropertyValueFactory<Flight, String>("destination"));
             datehour.setCellValueFactory(new PropertyValueFactory<Flight, Date>("datehour"));
             airport.setCellValueFactory(new PropertyValueFactory<Flight, String>("airport"));
             freeseats.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("freeseats"));
+            mainTable.getItems().setAll(zboruri);
 
-            mainTable.getItems().setAll(lista);
 
             mainPagination.setPageFactory(this::createPage);
 
@@ -110,17 +112,17 @@ public class MainClient implements Initializable
     {
 
         int fromIndex = pageIndex * rowsPerPage;
-        int toIndex = Math.min(fromIndex + rowsPerPage, lista.size());
-        mainTable.setItems(FXCollections.observableArrayList(lista.subList(fromIndex, toIndex)));
+        int toIndex = Math.min(fromIndex + rowsPerPage, zboruri.size());
+        mainTable.setItems(FXCollections.observableArrayList(zboruri.subList(fromIndex, toIndex)));
 
         int numOfPages = 1;
-        if (lista.size() % rowsPerPage == 0) {
-            numOfPages = lista.size() / rowsPerPage;
-        } else if (lista.size() > rowsPerPage) {
-            numOfPages = lista.size() / rowsPerPage + 1;
+        if (zboruri.size() % rowsPerPage == 0) {
+            numOfPages = zboruri.size() / rowsPerPage;
+        } else if (zboruri.size() > rowsPerPage) {
+            numOfPages = zboruri.size() / rowsPerPage + 1;
         }
 
-        if (lista.size() == 0)
+        if (zboruri.size() == 0)
             numOfPages =1;
 
         mainPagination.setPageCount(numOfPages);
@@ -145,6 +147,17 @@ public class MainClient implements Initializable
         });
     }
 
+    @FXML
+    public void setSearchAction()
+    {
+
+    }
+
+    @FXML
+    public void setBuyAction()
+    {
+
+    }
     static void showMessage(Alert.AlertType type, String header, String text)
     {
         Alert message=new Alert(type);

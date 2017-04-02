@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -20,7 +19,7 @@
                         <TableColumn fx:id="freeseats" prefWidth="150.0" text="Available Seats" />
                     </columns>
                   </TableView>
-                  <Button fx:id="logoutButton" layoutX="14.0" layoutY="348.0" mnemonicParsing="false" onAction="#setLogoutAction" text="Logout" />
+                  <Button fx:id="logoutButton" layoutX="14.0" layoutY="348.0" mnemonicParsing="false" text="Logout" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -30,10 +29,10 @@
                <children>
                   <TableView fx:id="buyTable" layoutX="14.0" layoutY="13.0" prefHeight="260.0" prefWidth="504.0">
                     <columns>
-                      <TableColumn prefWidth="103.0" text="Destination" />
-                      <TableColumn prefWidth="143.0" text="Departure" />
-                        <TableColumn prefWidth="115.0" text="Airport" />
-                        <TableColumn prefWidth="142.0" text="Available Seats" />
+                      <TableColumn fx:id="destination2" prefWidth="103.0" text="Destination" />
+                      <TableColumn fx:id="departure2" prefWidth="143.0" text="Departure" />
+                        <TableColumn fx:id="airport2" prefWidth="115.0" text="Airport" />
+                        <TableColumn fx:id="freeseats2" prefWidth="142.0" text="Available Seats" />
                     </columns>
                   </TableView>
                   <Pagination fx:id="buyPagination" layoutX="7.0" layoutY="58.0" prefHeight="280.0" prefWidth="518.0" />
@@ -54,9 +53,9 @@
                <children>
                   <TableView fx:id="searchTable" layoutX="228.0" layoutY="14.0" prefHeight="333.0" prefWidth="497.0">
                     <columns>
-                      <TableColumn prefWidth="128.0" text="Destination" />
-                      <TableColumn minWidth="0.0" prefWidth="211.0" text="Departure" />
-                        <TableColumn prefWidth="157.0" text="Available Seats" />
+                      <TableColumn fx:id="destination3" prefWidth="128.0" text="Destination" />
+                      <TableColumn fx:id="departure3" minWidth="0.0" prefWidth="211.0" text="Departure" />
+                        <TableColumn fx:id="freeseats3" prefWidth="157.0" text="Available Seats" />
                     </columns>
                   </TableView>
                   <TextField fx:id="searchDestination" layoutX="14.0" layoutY="35.0" />
