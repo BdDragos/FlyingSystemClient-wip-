@@ -12,7 +12,7 @@
                <children>
                   <Pagination fx:id="mainPagination" layoutX="13.0" layoutY="66.0" maxPageIndicatorCount="5" prefHeight="297.0" prefWidth="708.0" />
                   <Label layoutX="14.0" layoutY="29.0" prefHeight="21.0" prefWidth="175.0" text="Flight Window" />
-                  <TableView fx:id="mainTable" layoutX="14.0" layoutY="66.0" prefHeight="233.0" prefWidth="705.0">
+                  <TableView fx:id="mainTable" layoutX="14.0" layoutY="66.0" prefHeight="226.0" prefWidth="705.0">
                     <columns>
                       <TableColumn fx:id="destination" prefWidth="138.0" text="Destination" />
                       <TableColumn fx:id="datehour" prefWidth="273.0" text="Departure" />
@@ -28,7 +28,7 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="409.0" prefWidth="619.0">
                <children>
-                  <TableView fx:id="buyTable" layoutX="14.0" layoutY="13.0" prefHeight="260.0" prefWidth="504.0">
+                  <TableView fx:id="buyTable" layoutX="14.0" layoutY="13.0" prefHeight="225.0" prefWidth="504.0">
                     <columns>
                       <TableColumn fx:id="destination2" prefWidth="103.0" text="Destination" />
                       <TableColumn fx:id="datehour2" prefWidth="149.0" text="Departure" />

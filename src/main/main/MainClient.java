@@ -57,7 +57,7 @@ public class MainClient implements Initializable
     @FXML private TableColumn<Flight, String> airport3;
 
     private ObservableList zboruri;
-    private final static int rowsPerPage = 5;
+    private final static int rowsPerPage = 7;
     private List<Flight> lista = new ArrayList<>();
     private BufferedReader in;
     private PrintWriter out;
@@ -100,6 +100,7 @@ public class MainClient implements Initializable
             }
 
             this.zboruri = FXCollections.observableArrayList(lista);
+
             zboruri.addListener(new ListChangeListener()
             {
                 @Override
@@ -141,6 +142,7 @@ public class MainClient implements Initializable
 
     private void refreshTable()
     {
+        List<Flight> listanoua = new ArrayList<>();
         try {
             out.println("Show");
             String retur = in.readLine();
@@ -156,12 +158,10 @@ public class MainClient implements Initializable
 
                 int freeseat = Integer.parseInt(zbor[3]);
                 Flight fly = new Flight(Integer.parseInt(zbor[0]), zbor[1], zbor[2], freeseat, sqlStartDate);
-                lista.add(fly);
+                listanoua.add(fly);
             }
-            this.zboruri = null;
-            this.zboruri = FXCollections.observableArrayList(lista);
-
         }
+
         catch (IOException io)
         {
             io.printStackTrace();
@@ -170,6 +170,8 @@ public class MainClient implements Initializable
         {
             e.printStackTrace();
         }
+
+        zboruri.setAll(listanoua);
 
     }
     private Node createPageBuy(int pageIndex)
@@ -379,8 +381,8 @@ public class MainClient implements Initializable
                         out.println(address);
                         if (in.readLine().compareTo("Primit") == 0)
                         {
-                            refreshTable();
                             showMessage(Alert.AlertType.CONFIRMATION,"Buy","The ticket was bought with success");
+                            refreshTable();
                         }
                         else
                         {
