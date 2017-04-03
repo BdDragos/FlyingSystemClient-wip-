@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -42,7 +43,7 @@
                   <Label layoutX="530.0" layoutY="13.0" text="Client name" />
                   <Label layoutX="530.0" layoutY="76.0" text="Number. of Tickets" />
                   <Label layoutX="531.0" layoutY="150.0" text="Client adress" />
-                  <Button fx:id="buyButton" layoutX="531.0" layoutY="285.0" mnemonicParsing="false" text="Buy ticket" />
+                  <Button fx:id="buyButton" layoutX="531.0" layoutY="285.0" mnemonicParsing="false" onAction="#setBuyAction" text="Buy ticket" />
                </children>
             </AnchorPane>
         </content>

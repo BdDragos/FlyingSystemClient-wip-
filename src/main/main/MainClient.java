@@ -31,6 +31,7 @@ public class MainClient implements Initializable
     @FXML private TableView<Flight> mainTable;
     @FXML private Button logoutButton;
     @FXML private Pagination mainPagination;
+    @FXML private Pagination buyPagination;
     @FXML private Button buyButton;
     @FXML private TableView<Flight> buyTable;
     @FXML private TextField addClient;
@@ -55,8 +56,8 @@ public class MainClient implements Initializable
     @FXML private TableColumn<Flight, Integer> freeseats3;
     @FXML private TableColumn<Flight, String> airport3;
 
-    private ObservableList<Flight> zboruri;
-    private final static int rowsPerPage = 7;
+    private ObservableList zboruri;
+    private final static int rowsPerPage = 5;
     private List<Flight> lista = new ArrayList<>();
     private BufferedReader in;
     private PrintWriter out;
@@ -87,18 +88,26 @@ public class MainClient implements Initializable
             lgt = tokens.length;
             for (int i = 1; i < lgt; i++)
             {
-                String[] zboruri = tokens[i].split(",");
+                String[] zbor = tokens[i].split(",");
                 SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
 
-                java.util.Date date = formatter.parse(zboruri[4]);
+                java.util.Date date = formatter.parse(zbor[4]);
                 java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
 
-                int freeseat = Integer.parseInt(zboruri[3]);
-                Flight zbor = new Flight(Integer.parseInt(zboruri[0]), zboruri[1], zboruri[2], freeseat, sqlStartDate);
-                lista.add(zbor);
+                int freeseat = Integer.parseInt(zbor[3]);
+                Flight fly = new Flight(Integer.parseInt(zbor[0]), zbor[1], zbor[2], freeseat, sqlStartDate);
+                lista.add(fly);
             }
 
             this.zboruri = FXCollections.observableArrayList(lista);
+            zboruri.addListener(new ListChangeListener()
+            {
+                @Override
+                public void onChanged(ListChangeListener.Change change)
+                {
+                    System.out.println("Detected a change! ");
+                }
+            });
 
             destination.setCellValueFactory(new PropertyValueFactory<Flight, String>("destination"));
             datehour.setCellValueFactory(new PropertyValueFactory<Flight, Date>("datehour"));
@@ -117,7 +126,7 @@ public class MainClient implements Initializable
             freeseats2.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("freeseats"));
 
             mainPagination.setPageFactory(this::createPage);
-
+            buyPagination.setPageFactory(this::createPageBuy);
 
         }
         catch (IOException io)
@@ -128,6 +137,61 @@ public class MainClient implements Initializable
         {
             e.printStackTrace();
         }
+    }
+
+    private void refreshTable()
+    {
+        try {
+            out.println("Show");
+            String retur = in.readLine();
+            int lgt;
+            String[] tokens = retur.split("/");
+            lgt = tokens.length;
+            for (int i = 1; i < lgt; i++) {
+                String[] zbor = tokens[i].split(",");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+                java.util.Date date = formatter.parse(zbor[4]);
+                java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+
+                int freeseat = Integer.parseInt(zbor[3]);
+                Flight fly = new Flight(Integer.parseInt(zbor[0]), zbor[1], zbor[2], freeseat, sqlStartDate);
+                lista.add(fly);
+            }
+            this.zboruri = null;
+            this.zboruri = FXCollections.observableArrayList(lista);
+
+        }
+        catch (IOException io)
+        {
+            io.printStackTrace();
+        }
+        catch (java.text.ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+    private Node createPageBuy(int pageIndex)
+    {
+
+        int fromIndex = pageIndex * rowsPerPage;
+        int toIndex = Math.min(fromIndex + rowsPerPage, zboruri.size());
+        buyTable.setItems(FXCollections.observableArrayList(zboruri.subList(fromIndex, toIndex)));
+
+        int numOfPages = 1;
+        if (zboruri.size() % rowsPerPage == 0) {
+            numOfPages = zboruri.size() / rowsPerPage;
+        } else if (zboruri.size() > rowsPerPage) {
+            numOfPages = zboruri.size() / rowsPerPage + 1;
+        }
+
+        if (zboruri.size() == 0)
+            numOfPages =1;
+
+        buyPagination.setPageCount(numOfPages);
+
+        return new BorderPane(buyTable);
     }
 
     private Node createPage(int pageIndex)
@@ -197,17 +261,17 @@ public class MainClient implements Initializable
                         lgt = tokens.length;
                         for (int i = 1; i < lgt; i++)
                         {
-                            String[] zboruri = tokens[i].split(",");
+                            String[] fly = tokens[i].split(",");
                             SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
-                            java.util.Date date = formatter.parse(zboruri[4]);
+                            java.util.Date date = formatter.parse(fly[4]);
                             java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
-                            int freeseat = Integer.parseInt(zboruri[3]);
-                            Flight zbor = new Flight(Integer.parseInt(zboruri[0]), zboruri[1], zboruri[2], freeseat, sqlStartDate);
+                            int freeseat = Integer.parseInt(fly[3]);
+                            Flight zbor = new Flight(Integer.parseInt(fly[0]), fly[1], fly[2], freeseat, sqlStartDate);
                             fin.add(zbor);
 
 
                             searchTable.getItems().setAll(fin);
-
+                            buyTable.getItems().setAll(fin);
 
                         }
                     } catch (IOException e)
@@ -231,15 +295,16 @@ public class MainClient implements Initializable
                         lgt = tokens.length;
                         for (int i = 1; i < lgt; i++)
                         {
-                            String[] zboruri = tokens[i].split(",");
+                            String[] fly = tokens[i].split(",");
                             SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
-                            java.util.Date date = formatter.parse(zboruri[4]);
+                            java.util.Date date = formatter.parse(fly[4]);
                             java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
-                            int freeseat = Integer.parseInt(zboruri[3]);
-                            Flight zbor = new Flight(Integer.parseInt(zboruri[0]), zboruri[1], zboruri[2], freeseat, sqlStartDate);
+                            int freeseat = Integer.parseInt(fly[3]);
+                            Flight zbor = new Flight(Integer.parseInt(fly[0]), fly[1], fly[2], freeseat, sqlStartDate);
                             fin.add(zbor);
 
                             searchTable.getItems().setAll(fin);
+                            buyTable.getItems().setAll(fin);
                         }
                     } catch (IOException e)
                     {
@@ -263,18 +328,15 @@ public class MainClient implements Initializable
                         lgt = tokens.length;
                         for (int i = 1; i < lgt; i++)
                         {
-                            String[] zboruri = tokens[i].split(",");
+                            String[] fly = tokens[i].split(",");
                             SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
-                            java.util.Date date = formatter.parse(zboruri[4]);
+                            java.util.Date date = formatter.parse(fly[4]);
                             java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
-                            int freeseat = Integer.parseInt(zboruri[3]);
-                            Flight zbor = new Flight(Integer.parseInt(zboruri[0]), zboruri[1], zboruri[2], freeseat, sqlStartDate);
+                            int freeseat = Integer.parseInt(fly[3]);
+                            Flight zbor = new Flight(Integer.parseInt(fly[0]), fly[1], fly[2], freeseat, sqlStartDate);
                             fin.add(zbor);
-
-
                             searchTable.getItems().setAll(fin);
-
-
+                            buyTable.getItems().setAll(fin);
                         }
                     } catch (IOException e)
                     {
@@ -293,7 +355,44 @@ public class MainClient implements Initializable
     @FXML
     public void setBuyAction()
     {
-
+        buyButton.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                String client = addClient.getText();
+                String nrticket = addTickets.getText();
+                String address = addAdress.getText();
+                Flight fly = buyTable.getSelectionModel().getSelectedItem();
+                String id = Integer.toString(fly.getFlightId());
+                if (client.isEmpty() || nrticket.isEmpty() || address.isEmpty())
+                {
+                    showErrorMessage("Fill all the fields with the necessary information");
+                }
+                else
+                    try
+                    {
+                        out.println("Buy");
+                        out.println(id);
+                        out.println(client);
+                        out.println(nrticket);
+                        out.println(address);
+                        if (in.readLine().compareTo("Primit") == 0)
+                        {
+                            refreshTable();
+                            showMessage(Alert.AlertType.CONFIRMATION,"Buy","The ticket was bought with success");
+                        }
+                        else
+                        {
+                            showErrorMessage("The ticket couldn't be bought");
+                        }
+                    }
+                    catch (IOException io)
+                    {
+                        io.printStackTrace();
+                    }
+            }
+        });
     }
     private static void showMessage(Alert.AlertType type, String header, String text)
     {
