@@ -15,7 +15,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
+/*
  * Created by Dragos on 3/29/2017.
  */
 public class LoginClient implements Initializable {
@@ -42,6 +42,7 @@ public class LoginClient implements Initializable {
     {
         loginButton.setOnAction(new EventHandler<ActionEvent>()
         {
+            @Override
             public void handle(ActionEvent event)
             {
                     try {

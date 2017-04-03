@@ -2,7 +2,7 @@ package main.model;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
+/*
  * Created by Dragos on 3/15/2017.
  */
 public class Flight implements Serializable
@@ -12,9 +12,9 @@ public class Flight implements Serializable
     private String destination;
     private String airport;
     private int freeseats;
-    private Date datehour;
+    private java.sql.Date datehour;
 
-    public Flight(int id, String destin, String airp, int frst, Date dh)
+    public Flight(int id, String destin, String airp, int frst, java.sql.Date dh)
     {
         this.flightId=id;
         this.destination=destin;
@@ -28,7 +28,7 @@ public class Flight implements Serializable
         return datehour;
     }
 
-    public void setDatehour(Date datehour) {
+    public void setDatehour(java.sql.Date datehour) {
 
         this.datehour = datehour;
     }

@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="731.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="786.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <tabs>
     <Tab text="Main Table">
       <content>
@@ -19,7 +19,7 @@
                         <TableColumn fx:id="freeseats" prefWidth="150.0" text="Available Seats" />
                     </columns>
                   </TableView>
-                  <Button fx:id="logoutButton" layoutX="14.0" layoutY="348.0" mnemonicParsing="false" text="Logout" />
+                  <Button fx:id="logoutButton" layoutX="14.0" layoutY="348.0" mnemonicParsing="false" onAction="#setLogoutAction" text="Logout" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -30,8 +30,8 @@
                   <TableView fx:id="buyTable" layoutX="14.0" layoutY="13.0" prefHeight="260.0" prefWidth="504.0">
                     <columns>
                       <TableColumn fx:id="destination2" prefWidth="103.0" text="Destination" />
-                      <TableColumn fx:id="departure2" prefWidth="143.0" text="Departure" />
-                        <TableColumn fx:id="airport2" prefWidth="115.0" text="Airport" />
+                      <TableColumn fx:id="datehour2" prefWidth="149.0" text="Departure" />
+                        <TableColumn fx:id="airport2" prefWidth="109.0" text="Airport" />
                         <TableColumn fx:id="freeseats2" prefWidth="142.0" text="Available Seats" />
                     </columns>
                   </TableView>
@@ -49,20 +49,22 @@
       </Tab>
     <Tab text="Search for a flight">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="396.0" prefWidth="726.0">
                <children>
-                  <TableView fx:id="searchTable" layoutX="228.0" layoutY="14.0" prefHeight="333.0" prefWidth="497.0">
+                  <TableView fx:id="searchTable" layoutX="228.0" layoutY="14.0" prefHeight="333.0" prefWidth="550.0">
                     <columns>
                       <TableColumn fx:id="destination3" prefWidth="128.0" text="Destination" />
-                      <TableColumn fx:id="departure3" minWidth="0.0" prefWidth="211.0" text="Departure" />
-                        <TableColumn fx:id="freeseats3" prefWidth="157.0" text="Available Seats" />
+                      <TableColumn fx:id="datehour3" minWidth="0.0" prefWidth="152.0" text="Departure" />
+                        <TableColumn fx:id="freeseats3" minWidth="0.0" prefWidth="123.0" text="Available Seats" />
+                        <TableColumn fx:id="airport3" prefWidth="146.0" text="Airport" />
                     </columns>
                   </TableView>
                   <TextField fx:id="searchDestination" layoutX="14.0" layoutY="35.0" />
                   <TextField fx:id="searchDeparture" layoutX="14.0" layoutY="107.0" />
                   <Label layoutX="14.0" layoutY="14.0" text="Destination" />
                   <Label layoutX="14.0" layoutY="78.0" text="Departure" />
-                  <Button fx:id="searchButton" layoutX="112.0" layoutY="165.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="89.0" text="Search" />
+                  <Button fx:id="searchButton" layoutX="112.0" layoutY="165.0" mnemonicParsing="false" onAction="#setSearchAction" prefHeight="31.0" prefWidth="89.0" text="Search" />
+                  <Label layoutX="14.0" layoutY="359.0" text="Achtung: The date format is dd-MM-yyyy" />
                </children></AnchorPane>
       </content>
     </Tab>

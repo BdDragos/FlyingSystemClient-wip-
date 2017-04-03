@@ -17,12 +17,13 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import java.io.*;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-/**
+/*
  * Created by Dragos on 3/30/2017.
  */
 public class MainClient implements Initializable
@@ -43,6 +44,16 @@ public class MainClient implements Initializable
     @FXML private TableColumn<Flight, Date> datehour;
     @FXML private TableColumn<Flight, String> airport;
     @FXML private TableColumn<Flight, Integer> freeseats;
+
+    @FXML private TableColumn<Flight, String> destination2;
+    @FXML private TableColumn<Flight, Date> datehour2;
+    @FXML private TableColumn<Flight, String> airport2;
+    @FXML private TableColumn<Flight, Integer> freeseats2;
+
+    @FXML private TableColumn<Flight, String> destination3;
+    @FXML private TableColumn<Flight, Date> datehour3;
+    @FXML private TableColumn<Flight, Integer> freeseats3;
+    @FXML private TableColumn<Flight, String> airport3;
 
     private ObservableList<Flight> zboruri;
     private final static int rowsPerPage = 7;
@@ -78,11 +89,13 @@ public class MainClient implements Initializable
             {
                 String[] zboruri = tokens[i].split(",");
                 SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
-                Date date1=formatter.parse(zboruri[4]);
-                int freeseat = Integer.parseInt(zboruri[3]);
-                Flight zbor = new Flight(Integer.parseInt(zboruri[0]), zboruri[1], zboruri[2], freeseat, date1);
-                lista.add(zbor);
 
+                java.util.Date date = formatter.parse(zboruri[4]);
+                java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+
+                int freeseat = Integer.parseInt(zboruri[3]);
+                Flight zbor = new Flight(Integer.parseInt(zboruri[0]), zboruri[1], zboruri[2], freeseat, sqlStartDate);
+                lista.add(zbor);
             }
 
             this.zboruri = FXCollections.observableArrayList(lista);
@@ -93,6 +106,15 @@ public class MainClient implements Initializable
             freeseats.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("freeseats"));
             mainTable.getItems().setAll(zboruri);
 
+            destination3.setCellValueFactory(new PropertyValueFactory<Flight, String>("destination"));
+            airport3.setCellValueFactory(new PropertyValueFactory<Flight, String>("airport"));
+            datehour3.setCellValueFactory(new PropertyValueFactory<Flight, Date>("datehour"));
+            freeseats3.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("freeseats"));
+
+            destination2.setCellValueFactory(new PropertyValueFactory<Flight, String>("destination"));
+            airport2.setCellValueFactory(new PropertyValueFactory<Flight, String>("airport"));
+            datehour2.setCellValueFactory(new PropertyValueFactory<Flight, Date>("datehour"));
+            freeseats2.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("freeseats"));
 
             mainPagination.setPageFactory(this::createPage);
 
@@ -134,6 +156,7 @@ public class MainClient implements Initializable
     public void setLogoutAction()
     {
         logoutButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
             public void handle(ActionEvent event)
             {
                 out.println("END");
@@ -150,7 +173,121 @@ public class MainClient implements Initializable
     @FXML
     public void setSearchAction()
     {
+        searchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                String depart = searchDeparture.getText();
+                String destin = searchDestination.getText();
+                if (depart.isEmpty() && destin.isEmpty())
+                {
+                    showErrorMessage("Complete at least one of the search fields");
+                }
+                else if (!depart.isEmpty() && !destin.isEmpty())
+                {
+                    try
+                    {
+                        out.println("SearchAll");
+                        out.println(depart);
+                        out.println(destin);
+                        String result = in.readLine();
+                        List<Flight> fin = new ArrayList<>();
+                        int lgt;
+                        String[] tokens = result.split("/");
+                        lgt = tokens.length;
+                        for (int i = 1; i < lgt; i++)
+                        {
+                            String[] zboruri = tokens[i].split(",");
+                            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+                            java.util.Date date = formatter.parse(zboruri[4]);
+                            java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+                            int freeseat = Integer.parseInt(zboruri[3]);
+                            Flight zbor = new Flight(Integer.parseInt(zboruri[0]), zboruri[1], zboruri[2], freeseat, sqlStartDate);
+                            fin.add(zbor);
 
+
+                            searchTable.getItems().setAll(fin);
+
+
+                        }
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    } catch (ParseException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+                else if (!depart.isEmpty() && destin.isEmpty())
+                {
+                    try
+                    {
+                        out.println("SearchDep");
+                        out.println(depart);
+                        String result = in.readLine();
+                        List<Flight> fin = new ArrayList<>();
+                        int lgt;
+                        String[] tokens = result.split("/");
+                        lgt = tokens.length;
+                        for (int i = 1; i < lgt; i++)
+                        {
+                            String[] zboruri = tokens[i].split(",");
+                            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+                            java.util.Date date = formatter.parse(zboruri[4]);
+                            java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+                            int freeseat = Integer.parseInt(zboruri[3]);
+                            Flight zbor = new Flight(Integer.parseInt(zboruri[0]), zboruri[1], zboruri[2], freeseat, sqlStartDate);
+                            fin.add(zbor);
+
+                            searchTable.getItems().setAll(fin);
+                        }
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    } catch (ParseException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+                else if (depart.isEmpty() && !destin.isEmpty())
+                {
+                    try
+                    {
+                        out.println("SearchDest");
+                        out.println(destin);
+                        String result = in.readLine();
+                        List<Flight> fin = new ArrayList<>();
+                        int lgt;
+                        String[] tokens = result.split("/");
+                        lgt = tokens.length;
+                        for (int i = 1; i < lgt; i++)
+                        {
+                            String[] zboruri = tokens[i].split(",");
+                            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+                            java.util.Date date = formatter.parse(zboruri[4]);
+                            java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+                            int freeseat = Integer.parseInt(zboruri[3]);
+                            Flight zbor = new Flight(Integer.parseInt(zboruri[0]), zboruri[1], zboruri[2], freeseat, sqlStartDate);
+                            fin.add(zbor);
+
+
+                            searchTable.getItems().setAll(fin);
+
+
+                        }
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    } catch (ParseException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }
+        });
     }
 
     @FXML
@@ -158,7 +295,7 @@ public class MainClient implements Initializable
     {
 
     }
-    static void showMessage(Alert.AlertType type, String header, String text)
+    private static void showMessage(Alert.AlertType type, String header, String text)
     {
         Alert message=new Alert(type);
         message.setHeaderText(header);
@@ -166,7 +303,7 @@ public class MainClient implements Initializable
         message.showAndWait();
     }
 
-    static void showErrorMessage(String text)
+    private static void showErrorMessage(String text)
     {
         Alert message=new Alert(Alert.AlertType.ERROR);
         message.setTitle("Mesaj eroare");
