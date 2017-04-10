@@ -1,11 +1,11 @@
 package main.main;
 
-import javafx.collections.ListChangeListener;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -17,12 +17,16 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import java.io.*;
 import java.net.URL;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 /*
  * Created by Dragos on 3/30/2017.
  */
@@ -76,6 +80,7 @@ public class MainClient implements Initializable
         {
             io.printStackTrace();
         }
+
     }
 
     public void initialize(URL location, ResourceBundle resources)
@@ -128,6 +133,14 @@ public class MainClient implements Initializable
 
             mainPagination.setPageFactory(this::createPage);
             buyPagination.setPageFactory(this::createPageBuy);
+
+            ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+            exec.scheduleAtFixedRate(new Runnable() {
+                @Override
+                public void run() {
+                    refreshTable();
+                }
+            }, 0, 5, TimeUnit.SECONDS);
 
         }
         catch (IOException io)
@@ -198,7 +211,6 @@ public class MainClient implements Initializable
 
     private Node createPage(int pageIndex)
     {
-
         int fromIndex = pageIndex * rowsPerPage;
         int toIndex = Math.min(fromIndex + rowsPerPage, zboruri.size());
         mainTable.setItems(FXCollections.observableArrayList(zboruri.subList(fromIndex, toIndex)));
