@@ -10,17 +10,17 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="416.0" prefWidth="600.0">
                <children>
-                  <Pagination fx:id="mainPagination" layoutX="13.0" layoutY="66.0" maxPageIndicatorCount="5" prefHeight="297.0" prefWidth="708.0" />
+                  <Pagination fx:id="mainPagination" layoutX="14.0" layoutY="61.0" maxPageIndicatorCount="5" prefHeight="326.0" prefWidth="764.0" />
                   <Label layoutX="14.0" layoutY="29.0" prefHeight="21.0" prefWidth="175.0" text="Flight Window" />
-                  <TableView fx:id="mainTable" layoutX="14.0" layoutY="66.0" prefHeight="226.0" prefWidth="705.0">
+                  <TableView fx:id="mainTable" layoutX="24.0" layoutY="75.0" prefHeight="226.0" prefWidth="739.0">
                     <columns>
                       <TableColumn fx:id="destination" prefWidth="138.0" text="Destination" />
                       <TableColumn fx:id="datehour" prefWidth="273.0" text="Departure" />
-                        <TableColumn fx:id="airport" minWidth="7.0" prefWidth="143.0" text="Airport" />
-                        <TableColumn fx:id="freeseats" prefWidth="150.0" text="Available Seats" />
+                        <TableColumn fx:id="airport" minWidth="7.0" prefWidth="158.0" text="Airport" />
+                        <TableColumn fx:id="freeseats" prefWidth="169.0" text="Available Seats" />
                     </columns>
                   </TableView>
-                  <Button fx:id="logoutButton" layoutX="14.0" layoutY="348.0" mnemonicParsing="false" onAction="#setLogoutAction" text="Logout" />
+                  <Button fx:id="logoutButton" layoutX="704.0" layoutY="14.0" mnemonicParsing="false" onAction="#setLogoutAction" text="Logout" />
                </children></AnchorPane>
       </content>
     </Tab>

@@ -1,5 +1,6 @@
 package main.main;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -20,12 +21,7 @@ import java.net.URL;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 
 /*
  * Created by Dragos on 3/30/2017.
@@ -61,7 +57,7 @@ public class MainClient implements Initializable
     @FXML private TableColumn<Flight, String> airport3;
 
     private ObservableList zboruri;
-    private final static int rowsPerPage = 7;
+    private final static int rowsPerPage = 5;
     private List<Flight> lista = new ArrayList<>();
     private BufferedReader in;
     private PrintWriter out;
@@ -111,7 +107,7 @@ public class MainClient implements Initializable
                 @Override
                 public void onChanged(ListChangeListener.Change change)
                 {
-                    System.out.println("Detected a change! ");
+
                 }
             });
 
@@ -119,7 +115,7 @@ public class MainClient implements Initializable
             datehour.setCellValueFactory(new PropertyValueFactory<Flight, Date>("datehour"));
             airport.setCellValueFactory(new PropertyValueFactory<Flight, String>("airport"));
             freeseats.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("freeseats"));
-            mainTable.getItems().setAll(zboruri);
+            mainTable.getItems().setAll(FXCollections.observableArrayList(zboruri));
 
             destination3.setCellValueFactory(new PropertyValueFactory<Flight, String>("destination"));
             airport3.setCellValueFactory(new PropertyValueFactory<Flight, String>("airport"));
@@ -131,16 +127,30 @@ public class MainClient implements Initializable
             datehour2.setCellValueFactory(new PropertyValueFactory<Flight, Date>("datehour"));
             freeseats2.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("freeseats"));
 
-            mainPagination.setPageFactory(this::createPage);
+
             buyPagination.setPageFactory(this::createPageBuy);
 
+            /*
             ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
             exec.scheduleAtFixedRate(new Runnable() {
                 @Override
                 public void run() {
                     refreshTable();
                 }
-            }, 0, 5, TimeUnit.SECONDS);
+            }, 0, 3, TimeUnit.SECONDS);
+            */
+
+            Timer timer = new java.util.Timer();
+
+            timer.schedule(new TimerTask() {
+                public void run() {
+                    Platform.runLater(new Runnable() {
+                        public void run() {
+                            refreshTable();
+                        }
+                    });
+                }
+            }, 0, 5000);
 
         }
         catch (IOException io)
@@ -173,6 +183,8 @@ public class MainClient implements Initializable
                 Flight fly = new Flight(Integer.parseInt(zbor[0]), zbor[1], zbor[2], freeseat, sqlStartDate);
                 listanoua.add(fly);
             }
+
+
         }
 
         catch (IOException io)
@@ -185,6 +197,8 @@ public class MainClient implements Initializable
         }
 
         zboruri.setAll(listanoua);
+        mainTable.getItems().setAll(FXCollections.observableArrayList(zboruri));
+
 
     }
     private Node createPageBuy(int pageIndex)
