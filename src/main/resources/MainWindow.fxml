@@ -4,20 +4,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="786.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="447.0" prefWidth="805.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <tabs>
     <Tab text="Main Table">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="416.0" prefWidth="600.0">
                <children>
-                  <Pagination fx:id="mainPagination" layoutX="14.0" layoutY="61.0" maxPageIndicatorCount="5" prefHeight="326.0" prefWidth="764.0" />
                   <Label layoutX="14.0" layoutY="29.0" prefHeight="21.0" prefWidth="175.0" text="Flight Window" />
-                  <TableView fx:id="mainTable" layoutX="24.0" layoutY="75.0" prefHeight="226.0" prefWidth="739.0">
+                  <TableView fx:id="mainTable" layoutX="24.0" layoutY="75.0" prefHeight="324.0" prefWidth="775.0">
                     <columns>
                       <TableColumn fx:id="destination" prefWidth="138.0" text="Destination" />
                       <TableColumn fx:id="datehour" prefWidth="273.0" text="Departure" />
                         <TableColumn fx:id="airport" minWidth="7.0" prefWidth="158.0" text="Airport" />
-                        <TableColumn fx:id="freeseats" prefWidth="169.0" text="Available Seats" />
+                        <TableColumn fx:id="freeseats" prefWidth="175.0" text="Available Seats" />
                     </columns>
                   </TableView>
                   <Button fx:id="logoutButton" layoutX="704.0" layoutY="14.0" mnemonicParsing="false" onAction="#setLogoutAction" text="Logout" />
@@ -37,13 +36,13 @@
                     </columns>
                   </TableView>
                   <Pagination fx:id="buyPagination" layoutX="7.0" layoutY="58.0" prefHeight="280.0" prefWidth="518.0" />
-                  <TextField fx:id="addClient" layoutX="530.0" layoutY="35.0" />
-                  <TextField fx:id="addTickets" layoutX="530.0" layoutY="97.0" />
-                  <TextArea fx:id="addAdress" layoutX="531.0" layoutY="171.0" prefHeight="103.0" prefWidth="186.0" />
-                  <Label layoutX="530.0" layoutY="13.0" text="Client name" />
-                  <Label layoutX="530.0" layoutY="76.0" text="Number. of Tickets" />
-                  <Label layoutX="531.0" layoutY="150.0" text="Client adress" />
-                  <Button fx:id="buyButton" layoutX="531.0" layoutY="285.0" mnemonicParsing="false" onAction="#setBuyAction" text="Buy ticket" />
+                  <TextField fx:id="addClient" layoutX="574.0" layoutY="34.0" />
+                  <TextField fx:id="addTickets" layoutX="574.0" layoutY="94.0" />
+                  <TextArea fx:id="addAdress" layoutX="575.0" layoutY="153.0" prefHeight="103.0" prefWidth="186.0" />
+                  <Label layoutX="577.0" layoutY="13.0" text="Client name" />
+                  <Label layoutX="574.0" layoutY="73.0" text="Number. of Tickets" />
+                  <Label layoutX="574.0" layoutY="133.0" text="Client adress" />
+                  <Button fx:id="buyButton" layoutX="574.0" layoutY="265.0" mnemonicParsing="false" onAction="#setBuyAction" text="Buy ticket" />
                </children>
             </AnchorPane>
         </content>

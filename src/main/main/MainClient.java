@@ -30,7 +30,7 @@ public class MainClient implements Initializable
 {
     @FXML private TableView<Flight> mainTable;
     @FXML private Button logoutButton;
-    @FXML private Pagination mainPagination;
+    //@FXML private Pagination mainPagination;
     @FXML private Pagination buyPagination;
     @FXML private Button buyButton;
     @FXML private TableView<Flight> buyTable;
@@ -183,8 +183,6 @@ public class MainClient implements Initializable
                 Flight fly = new Flight(Integer.parseInt(zbor[0]), zbor[1], zbor[2], freeseat, sqlStartDate);
                 listanoua.add(fly);
             }
-
-
         }
 
         catch (IOException io)
@@ -223,6 +221,7 @@ public class MainClient implements Initializable
         return new BorderPane(buyTable);
     }
 
+    /*
     private Node createPage(int pageIndex)
     {
         int fromIndex = pageIndex * rowsPerPage;
@@ -243,6 +242,7 @@ public class MainClient implements Initializable
 
         return new BorderPane(mainTable);
     }
+    */
 
     @FXML
     public void setLogoutAction()
